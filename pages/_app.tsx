@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import {
   ChakraProvider,
   Container,
@@ -11,7 +12,19 @@ import {
 } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import theme from "../theme";
+import TagManager from "react-gtm-module";
+
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
+  const gtmID = "GTM-56FGDNF";
+  const tagManagerArgs = {
+    gtmId: gtmID,
+  };
+
+  useEffect(() => {
+    console.log(gtmID);
+    TagManager.initialize(tagManagerArgs);
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
       <Box padding={4}>
