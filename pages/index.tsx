@@ -45,7 +45,7 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
           >
             {" "}
             <Text>{product.title.substr(0, 15)}</Text>
-            <Text fontSize="sm" fontWeight={500} color="green.500">
+            <Text fontSize="sm" fontWeight={520} color="green.500">
               ${product.price}
             </Text>
             <Button
