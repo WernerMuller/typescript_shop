@@ -29,6 +29,13 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
   );
 
   function handleCart(product: singleProduct) {
+    event({
+      action: "añadir_a_carrito",
+      params: {
+        search_term: product,
+      },
+    });
+
     setCart((cart) => cart.concat(product));
   }
 
@@ -66,6 +73,14 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
           as={Link}
           colorScheme="whatsapp"
           href={`https://wa.me/950805821?text=${encodeURIComponent(text)}`}
+          onClick={() =>
+            event({
+              action: "pagar_carrito",
+              params: {
+                search_term: "algo",
+              },
+            })
+          }
         >
           {" "}
           ver carrito ({cart.length} productos)
