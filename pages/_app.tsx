@@ -13,6 +13,8 @@ import {
 import { AppProps } from "next/app";
 import theme from "../theme";
 import TagManager from "react-gtm-module";
+import { useRouter } from "next/router";
+import { pageview } from "../lib/ga";
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   const gtmID = "GTM-56FGDNF";
@@ -20,10 +22,23 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     gtmId: gtmID,
   };
 
+  const router = useRouter();
+
   useEffect(() => {
-    console.log(gtmID);
-    TagManager.initialize(tagManagerArgs);
-  }, []);
+    const handleRouteChange = (url) => {
+      pageview(url);
+    };
+
+    //When the component is mounted, subscribe to router changes
+    //and log those page views
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <ChakraProvider theme={theme}>

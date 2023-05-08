@@ -4,7 +4,7 @@ import { initScriptLoader } from "next/script";
 import React, { useMemo, useState } from "react";
 import api from "../product/api";
 import { Product, singleProduct } from "../product/types";
-
+import { event } from "../lib/ga";
 interface Props {
   products: Product;
   single: singleProduct;
@@ -30,6 +30,12 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
   );
 
   function handleCart(product: singleProduct) {
+    event({
+      action: "agregar_carro",
+      params: {
+        search_term: cart,
+      },
+    });
     setCart((cart) => cart.concat(product));
   }
 
